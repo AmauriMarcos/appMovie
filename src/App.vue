@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+      <Movies></Movies>
   </div>
 </template>
+
+<script>
+import Movies from '../src/components/Movies'
+export default {
+  name: 'App',
+  data(){
+    return{
+      movies: []
+    }
+  },
+  components: {
+    Movies
+  }
+
+}
+</script>
 
 <style lang="scss">
 #app {
