@@ -1,52 +1,47 @@
 <template>
+<div class="myContainer">
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-navigation-drawer app color="blue-grey darken-1">
+     
+    </v-navigation-drawer>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+    <v-app-bar app >
+      
+        <Search></Search>  
+    
     </v-app-bar>
 
+  <!-- Sizes your content based upon application components -->
     <v-content>
-      <HelloWorld />
+
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <Movies></Movies>
+
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
     </v-content>
-  </v-app>
+
+  <v-footer app color="blue-grey darken-4" class="myFooter">
+    <!-- -->
+  
+  </v-footer>
+</v-app>
+</div>
+  
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import Movies from "./components/Movies";
+import Search from "./components/Search";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld
+    Movies,
+    Search
   },
 
   data: () => ({
@@ -54,3 +49,14 @@ export default {
   })
 };
 </script>
+
+<style lang="scss">
+  .myContainer{
+    padding: 3% 15%;
+  }
+
+  .myFooter{
+    height: 50px !important;
+  }
+  
+</style>
