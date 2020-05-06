@@ -3,13 +3,13 @@
     <p v-if="error">{{ error }}</p>
     <div v-for="movie in movies" :key="movie" class="gallery">
       <v-app  v-for="details in movie" :key="details">
-        <v-card>
+        <v-card v-if="details.Poster">
         <v-img
+          v-if="details.Poster"    
           class="white--text align-end"
           height="200px"
           :src="details.Poster"
         >
-        <v-card-title></v-card-title>
         </v-img>
   
         <v-card-subtitle class="pb-0">{{details.Title}}</v-card-subtitle>
@@ -72,7 +72,7 @@ export default {
        .catch(error =>{
          console.log(error);
        })
-       
+
        EventBus.$emit('details-movie', this.detailsMovie)
      }
   }
