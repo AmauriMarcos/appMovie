@@ -9,32 +9,25 @@
           height="200px"
           :src="details.Poster"
         >
-        <v-card-title>{{details.Title}}</v-card-title>
+        <v-card-title></v-card-title>
         </v-img>
   
-        <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
+        <v-card-subtitle class="pb-0">{{details.Title}}</v-card-subtitle>
     
         <v-card-text class="text--primary">
-          <div>Whitehaven Beach</div>
-    
-          <div>Whitsunday Island, Whitsunday Islands</div>
+          <div>Lançado em {{details.Year}}</div>
         </v-card-text>
   
         <v-card-actions>
           <v-btn
             color="orange"
             text
+            @click='getDetailsMovie(details.imdbID)'
           >
-            Share
-          </v-btn>
-    
-          <v-btn
-            color="orange"
-            text
-          >
-            Explore
+            Saiba mais
           </v-btn>
         </v-card-actions>
+       
     </v-card>
       </v-app>
       <!-- <div class="gallery__movies">
@@ -42,25 +35,46 @@
         <img :src="details.Poster " class="gallery__img">
       </div> -->
     </div>
+    
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import {EventBus} from '../main';
 
-import {EventBus} from '../main'
 export default {
   name: "Movies",
   data() {
     return {
       movies: [],
       error: "",
-      text: ''
+      text: '',
+      detailsMovie: []
     };
   },
   mounted() {
       EventBus.$on('my-data', data =>{
           this.movies = data
       });
+  },
+  methods: {
+     getDetailsMovie(movieId){
+       axios.get("http://www.omdbapi.com/", {
+         params: {
+           apiKey: "cc8c2843",
+           i: movieId
+         }
+       })
+       .then(response => {
+         this.detailsMovie = response.data
+       })
+       .catch(error =>{
+         console.log(error);
+       })
+       
+       EventBus.$emit('details-movie', this.detailsMovie)
+     }
   }
 };
 </script>
@@ -70,7 +84,7 @@ export default {
   .gallery{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      column-gap: .8rem;
+      column-gap: 1rem;
       grid-auto-rows: 400px;
 
      &__movies{

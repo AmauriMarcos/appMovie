@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <input type="text" v-model="mySearch" id="search"> 
-    <button class="btn" @click="getMovies">Search</button>
+    <button class="btn" @click="getMovies">Search</button>  
   </div>  
 </template>
 
@@ -14,7 +14,8 @@ export default {
   data(){
     return{
       mySearch: "",
-      movies: []
+      movies: [],
+      detail: []
     }
   },
   methods:{
@@ -27,12 +28,12 @@ export default {
           }
         })
         .then(response => {
-          this.movies = response.data;
+          this.movies = response.data
         })
         .catch(error => {
           this.error = error;
         });
-
+        
         EventBus.$emit('my-data', this.movies)
     }
   }
@@ -56,6 +57,6 @@ export default {
   padding: 1px 10px;
   border: none;
   background-color: rgb(106, 143, 212);
-
+  margin: 1rem;
 }
 </style>
