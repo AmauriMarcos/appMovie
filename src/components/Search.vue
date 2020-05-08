@@ -19,6 +19,7 @@ export default {
     }
   },
   methods:{
+    
     getMovies() {
       axios
         .get("http://www.omdbapi.com/", {
@@ -35,6 +36,7 @@ export default {
         });
         
         EventBus.$emit('my-data', this.movies)
+        
     }
   }
    
