@@ -1,6 +1,7 @@
 <template>
   <div>
     <p v-if="error">{{ error }}</p>
+ 
     <div v-for="movie in movies" :key="movie.Year" class="gallery">
       <v-app  v-for="details in movie" :key="details.imdbID">
         <v-card v-if="details.Poster && details.Title">
@@ -37,19 +38,20 @@ import axios from 'axios';
 
 export default {
   name: "Movies",
+  props: ['query'],
   data() {
     return {
       movies: [],
       error: "",
-      details: [],
-
+      details: []
     };
   },
-  mounted() {
-       axios.get("http://www.omdbapi.com/", {
+  methods: {
+     getData(){
+      axios.get("http://www.omdbapi.com/", {
          params: {
            apiKey: "cc8c2843",
-           s: 'movie'
+           s: this.query
          }
        })
        .then(response => {
@@ -58,8 +60,8 @@ export default {
        .catch(error =>{
          console.log(error);
        })
-  },
-  methods: {
+
+    },
     async getDetails(movieId){
       const res = await axios.get("http://www.omdbapi.com/",{
         params: {
@@ -72,8 +74,13 @@ export default {
       EventBus.$emit('movie-details', this.details);
     
     }
-  }
-};
+  },
+  mounted() {
+      this.getData();
+      this.query = ''
+  },
+}
+
 </script>
 
 <style scoped lang="scss">

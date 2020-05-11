@@ -3,12 +3,12 @@
   <div class="barra">
      <div class="barra__box">
         <div class="barra__box-back">
-            <h3>&larr; Back</h3>
+            <button @click='reload'>&larr; Back</button>
         </div>
         
         <input type="text" class="barra__box-myInput" v-model="query">
          
-        <button class="barra__box-btn" @click='updateQuery'>Search</button>
+        <button class="barra__box-btn" @click='callGetData'>Search</button>
         
      </div>
   </div>
@@ -19,7 +19,7 @@
       <img :src="details.Poster">
   </div>
   <div :class="active? 'movieA':'movieB'">
-        <Movies v-if='show'></Movies>
+        <Movies v-if='show' :query='query' ref="foo"></Movies>
         <div v-else>
           <v-app>
             <v-card :loading="loading" >    
@@ -109,6 +109,7 @@ export default {
       rating: 0,
       note: 'Bom',
       active: true,
+      query: 'lego'
     }
   },
   mounted(){
@@ -120,6 +121,16 @@ export default {
   watch: {
     details(){
       this.show = false
+    }
+  },
+  methods: {
+    callGetData(){     
+       this.$refs.foo.getData()
+       this.query = ''
+    },
+    reload(){
+       window.location.reload()
+       
     }
   }
 };
