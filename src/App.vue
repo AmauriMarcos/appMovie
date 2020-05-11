@@ -1,31 +1,29 @@
 <template>
-<div class="myContainer">
-  <v-app>
-    <v-navigation-drawer app color="blue-grey darken-1" v-if='!show'>
-       <v-app>
-          <v-img   
-            aspect-ratio="2"
-            :src="details.Poster"
-          ></v-img>      
-       </v-app>
-    </v-navigation-drawer>
+<div>
+  <div class="barra">
+     <div class="barra__box">
+        <div class="barra__box-back">
+            <h3>&larr; Back</h3>
+        </div>
+        
+        <input type="text" class="barra__box-myInput" v-model="query">
          
-    <v-app-bar app v-if="show">
-      
-    </v-app-bar>
-    
-    <v-content>
-      <v-container fluid color="blue-grey darken-4">
+        <button class="barra__box-btn" @click='updateQuery'>Search</button>
+        
+     </div>
+  </div>
+
+<div class="myContainer">
+   
+  <div class="poster">
+      <img :src="details.Poster">
+  </div>
+  <div :class="active? 'movieA':'movieB'">
         <Movies v-if='show'></Movies>
         <div v-else>
           <v-app>
-            <v-card
-              :loading="loading"
-              class="mx-auto my-12"
-            >
-              
+            <v-card :loading="loading" >    
               <v-card-title>{{details.Title}}</v-card-title>
-          
               <v-card-text>
                 <v-row
                   align="center"
@@ -44,7 +42,7 @@
                 <div class="grey--text ml-4">{{details.imdbRating}}</div>
                 </v-row>
 
-                <!-- Statement block of note -->
+              
                 <div v-if="details.imdbRating <= 3.5">
                   <p>{{note = 'Bad'}}</p>
                 </div>
@@ -57,7 +55,7 @@
                 <div v-else-if="details.imdbRating > 8.5 && details.imdbRating <= 10">
                   <p>{{note = 'Great'}}</p>
                 </div>
-                <!-- BLOCK ENDs -->
+               
 
                 <div class="my-4 subtitle-1">
                   <p>Launched in {{details.Released}}</p>
@@ -87,17 +85,9 @@
             </v-card>
           </v-app>
         </div>
-        
-      </v-container>
-    </v-content>
-
-  <v-footer app color="blue-grey darken-4" class="myFooter">
-    <!-- -->
-     
-  </v-footer>
-</v-app>
+  </div>
 </div>
-  
+  </div>
 </template>
 
 <script>
@@ -117,13 +107,15 @@ export default {
       show: 'true',
       length: 10,
       rating: 0,
-      note: 'Bom'
+      note: 'Bom',
+      active: true,
     }
   },
   mounted(){
-      EventBus.$on('movie-details', data =>{
-      this.details = data
-      });
+    EventBus.$on('movie-details', data =>{
+    this.details = data;
+    this.active = false
+    });
   },
   watch: {
     details(){
@@ -136,10 +128,64 @@ export default {
 <style lang="scss">
   .myContainer{
     padding: 3% 15%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
   }
 
+  .poster{
+    grid-column: 1/2;
+    align-self: center;
+  }
+
+  .movieA{
+    grid-column: 1/-1;
+  }
+  .movieB{
+    grid-column: 2/-1;
+  }
   .myFooter{
     height: 50px !important;
   }
   
+  .v-application--wrap{
+    min-height: 0 !important;
+  }
+
+
+  .barra{
+    background: linear-gradient(to right, #ACA6CA, #AE6DAB);
+    padding:  2% 7%;
+
+    &__box{
+      display: grid !important;
+      grid-template-columns: 1fr 3fr 1fr;
+
+      &-back{
+        color: #F1EFF9;
+      }
+
+      &-myInput{
+        border: 1px solid #ccc;
+        width: 100% !important;
+        background-color: #F1EFF9;
+        outline: none;
+        grid-column: 2/3;
+      }
+
+      &-btn{
+        justify-self: start;
+        padding: 3px 13px;
+        background-color: #F1EFF9;
+        outline: none;
+
+        &:hover{
+          background-color: #00C2CF;
+          
+        }
+      }
+      
+    }
+  }
+
+
 </style>

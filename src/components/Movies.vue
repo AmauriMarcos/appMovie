@@ -3,9 +3,9 @@
     <p v-if="error">{{ error }}</p>
     <div v-for="movie in movies" :key="movie.Year" class="gallery">
       <v-app  v-for="details in movie" :key="details.imdbID">
-        <v-card v-if="details.Poster">
+        <v-card v-if="details.Poster && details.Title">
           <v-img
-            v-if="details.Poster"    
+            v-if="details.Poster && details.Title"    
             class="white--text align-end"
             height="200px"
             :src="details.Poster"
@@ -49,7 +49,7 @@ export default {
        axios.get("http://www.omdbapi.com/", {
          params: {
            apiKey: "cc8c2843",
-           s: 'Movie'
+           s: 'movie'
          }
        })
        .then(response => {
